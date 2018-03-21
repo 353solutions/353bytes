@@ -33,3 +33,4 @@
 - Unix command line (pipes)
 - ssh
 - vim
+- VirtualBox install xubuntu
