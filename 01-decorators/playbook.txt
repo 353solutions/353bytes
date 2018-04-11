@@ -1,0 +1,255 @@
+In [1]: def add(a, b):
+   ...:     return a + b
+   ...: 
+   ...: 
+
+In [2]: add(1, 2)
+Out[2]: 3
+
+# show image
+
+In [5]: add.__name__
+Out[5]: 'add'
+
+In [3]: plus = add
+
+# show image
+
+In [4]: plus(1, 2)
+Out[4]: 3
+
+In [7]:plus.__name__
+Out[7]: 'add'
+
+In [5]: def make_adder(n):
+   ...:     def adder(val):
+   ...:         return val + n
+   ...:     return adder
+   ...:
+   ...: 
+
+In [6]: add7 = make_adder(7)
+
+# Show image
+
+In [7]: add7(10)
+Out[7]: 17
+
+
+In [1]: menu = {}
+
+In [2]: def register(fn):
+   ...:     menu[fn.__name__] = fn
+   ...:     return fn
+   ...: 
+In [2]: def copy():
+...:       print('>>> COPY <<<')
+...:     
+
+In [3]:register(copy)
+Out[3]: <function __main__.copy()>
+
+In [4]: def cut():
+   ...:     print('>>> CUT <<<')
+   ...:     
+
+In [5]: register(cut)
+Out[5]: <function __main__.cut()>
+
+In [6]: menu
+Out[6]: {'copy': <function __main__.copy()>, 'cut': <function __main__.cut()>}
+
+In [16]:def ui_loop():
+    ...:     while True:
+    ...:         print('\nMenu\n----')
+    ...:         print('\n'.join(sorted(menu)))
+    ...:         name = input('$ ').strip()  # py2 - raw_input
+    ...:         if name == 'quit':
+    ...:             break
+    ...:         fn = menu.get(name)
+    ...:         if not fn:
+    ...:             print('ERROR: unknown action')
+    ...:             continue
+    ...:         fn()
+
+In [17]: ui_loop()
+
+Menu
+----
+copy
+cut
+$ copy
+>>> COPY <<<
+
+Menu
+----
+copy
+cut
+$cut
+>>> CUT <<<
+
+Menu
+----
+copy
+cut
+$ paste
+ERROR: unknown action
+
+Menu
+----
+copy
+cut
+$ quit
+
+In [18]: @register
+    ...: def paste():
+    ...:     print('>>> PASTE <<<')
+    ...:     
+
+In [19]: ui_loop()
+
+Menu
+----
+copy
+cut
+paste
+$paste
+>>> PASTE <<<
+
+Menu
+----
+copy
+cut
+paste
+$quit
+
+In [20]: def paste():
+    ...:     print('PASTE')
+    ...:     
+
+In [21]: paste = register(paste)
+
+In [23]: from time import monotonic
+
+In [27]:def timed(fn):
+    ...:     def wrapper(a, b):
+    ...:         start = monotonic()
+    ...:         try:
+    ...:             return fn(a, b)
+    ...:         finally:
+    ...:             duration = monotonic() - start
+    ...:             print(f'{fn.__name__} took {duration:.2}sec')
+    ...:     return wrapper
+    ...: 
+    ...: 
+
+In [23]: from time import sleep
+
+In [28]: @timed
+    ...: def add(a, b):
+    ...:     """Return a + b"""
+    ...:     sleep(a/10)   # Simulate work
+    ...:     return a + b
+    ...: 
+
+In [29]: add(3, 7)
+add took 0.3sec
+Out[29]: 10
+
+In [30]: 
+
+In [30]: add
+Out[30]: <function __main__.timed.<locals>.wrapper(a, b)>
+
+In [31]: help(add)
+
+In [32]: from functools import wraps
+
+In [33]: def timed(fn):             
+    ...:     @wraps(fn)
+    ...:     def wrapper(a, b):
+    ...:         start = monotonic()
+    ...:         try:                     
+    ...:             return fn(a, b)
+    ...:         finally:
+    ...:             duration = monotonic() - start
+    ...:             print(f'{fn.__name__} took {duration:.2}sec')
+    ...:     return wrapper
+    ...: 
+    ...:
+    ...: 
+
+In [34]: 
+
+In [34]: @timed
+    ...: def add(a, b):
+    ...:     """Return a + b"""
+    ...:     sleep(a/10)   # Simulate work
+    ...:     return a + b
+    ...: 
+    ...: 
+
+In [35]: add
+Out[35]: <function __main__.add(a, b)>
+
+In [36]: help(add)
+
+In [37]: add(1, 2)
+add took 0.1sec
+Out[37]: 3
+
+In [38]:@timed
+    ...: def fact(n):
+    ...:     total = 1
+    ...:     for i in range(1, n + 1):
+    ...:         total *= i
+    ...:     return total
+    ...: 
+    ...: 
+
+In [39]: fact(10)
+--------------------------------------------------------------------------
+TypeError                                Traceback (most recent call last)
+<ipython-input-39-a3619c112477> in <module>()
+----> 1 fact(10)
+
+TypeError: wrapper() missing 1 required positional argument: 'b'
+
+In [33]: def timed(fn):             
+    ...:     @wraps(fn)
+    ...:     def wrapper(*args, **kw):
+    ...:         start = monotonic()
+    ...:         try:                     
+    ...:             return fn(*args, **kw)
+    ...:         finally:
+    ...:             duration = monotonic() - start
+    ...:             print(f'{fn.__name__} took {duration:.2}sec')
+    ...:     return wrapper
+    ...: 
+    ...:
+    ...: 
+
+In [41]: @timed
+    ...: def fact(n):
+    ...:     total = 1
+    ...:     for i in range(1, n + 1):
+    ...:         total *= i
+    ...:     return total
+    ...: 
+    ...: 
+
+In [42]: fact(10)
+fact took 9.8e-06sec
+Out[42]: 3628800
+
+In [34]: @timed
+    ...: def add(a, b):
+    ...:     """Return a + b"""
+    ...:     sleep(a/10)   # Simulate work
+    ...:     return a + b
+    ...: 
+    ...: 
+
+In [44]: add(1, 2)
+add took 0.1sec
+Out[44]: 3
