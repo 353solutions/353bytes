@@ -18,6 +18,15 @@ In [3]: plus = add
 In [4]: plus(1, 2)
 Out[4]: 3
 
+In [1]: names = ['bugs', 'taz', 'daffy']
+
+In [2]: sorted(names)
+Out[2]: ['bugs', 'daffy', 'taz']
+
+In [3]: sorted(names, key=len)
+Out[3]: ['taz', 'bugs', 'daffy']
+
+
 In [7]:plus.__name__
 Out[7]: 'add'
 
