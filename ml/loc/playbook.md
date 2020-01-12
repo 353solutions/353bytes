@@ -97,3 +97,42 @@ Date
 2020-01-10     Rick    Acid      33         4.5
 2020-01-12    Morty     Egg      12         5.2
 ```
+
+```
+
+In [25]: df[df['Customer'] == 'Morty']['Item Price'] *= 1.1                         
+<ipython-input-25-7fa1ab9e6dba>:1: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  df[df['Customer'] == 'Morty']['Item Price'] *= 1.1
+
+In [26]: df                                                                         
+Out[26]: 
+           Customer    Item  Amount  Item Price
+Date                                           
+2020-01-02     Rick     Eel     231         3.2
+2020-01-17    Morty  Carrot       7         0.3
+2020-01-23     Beth   Vodka       3        23.5
+2020-02-10     Rick    Acid      33         4.5
+2020-02-14    Morty     Egg      12         5.2
+```
+
+Pandas is doing hard work not to copy data but to give you view on the same
+data. It might have unexpected results when trying to modify parts of the data
+frame. This is another place where `loc` will help.
+
+```
+In [27]: df.loc[df['Customer'] == 'Morty', 'Item Price'] *= 1.1                     
+
+In [28]: df                                                                         
+Out[28]: 
+           Customer    Item  Amount  Item Price
+Date                                           
+2020-01-02     Rick     Eel     231        3.20
+2020-01-17    Morty  Carrot       7        0.33
+2020-01-23     Beth   Vodka       3       23.50
+2020-02-10     Rick    Acid      33        4.50
+2020-02-14    Morty     Egg      12        5.72
+```
