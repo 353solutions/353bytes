@@ -1,9 +1,5 @@
-# TODO
-- slices
+https://github.com/353solutions/353bytes/issues
 - go command
 - REST
 - struct & interface
 - goroutines & interfaces
-- cgo
-- json
-- flag
