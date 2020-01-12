@@ -1,0 +1,8 @@
+- value: 2.0
+  expected: 1.4142
+  error: false
+- value: 0
+  expected: 0
+  error: false
+- value: -1
+  error: true
