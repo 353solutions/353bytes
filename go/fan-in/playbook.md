@@ -17,3 +17,5 @@ and consume all the channels into a single channel.
 - how can we know when all are done? sync.WaitGroup
 
     fanin_close.go
+
+- defer for wg.Done
