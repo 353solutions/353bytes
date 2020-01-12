@@ -1,5 +1,5 @@
 Jupyter notebook are great for research & data exploration. They are not for
-developing Python code
+developing Python code (there's also console & QT)
 
 - Code cell
 - In/Out
