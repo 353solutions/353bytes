@@ -53,8 +53,8 @@ let g:go_auto_type_info = 1
 let g:go_list_height = 0
 let g:go_metalinter_command = "golangci-lint"
 let g:go_decls_mode = 'fzf'
-let g:go_highlight_diagnostic_errors = 1
-let g:go_highlight_diagnostic_warnings = 1
+let g:go_highlight_diagnostic_errors = 0
+let g:go_highlight_diagnostic_warnings = 0
 "let g:go_fmt_experimental = 1
 set completeopt-=preview
 

@@ -7,3 +7,4 @@ RUN curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 COPY vimrc /root/.vimrc
 RUN vim +PlugInstall +qa
 RUN vim +GoUpdateBinaries +qa
+RUN echo 'set -o vi' >> ~/.bashrc
