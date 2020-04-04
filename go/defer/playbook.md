@@ -46,3 +46,6 @@ We see that "defer 2" is printed before "defer 1". Deffers are executed in
 reversed order. This enables us to have a hierarchy of resources. Say open a
 database connection and get some rows. We'd like to close the rows first and
 then the database connection.
+
+Here's a more realistic example:
+    $ vim sha1.go
