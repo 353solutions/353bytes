@@ -1,0 +1,94 @@
+call plug#begin('~/.vim/plugged')
+
+Plug 'easymotion/vim-easymotion'
+Plug 'fatih/vim-go' , { 'tag': '*' }
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'tmhedberg/matchit'
+Plug 'vim-scripts/a.vim'
+
+" Initialize plugin system
+call plug#end()
+
+" Search & display
+set ignorecase
+set incsearch
+set nohls
+set number
+set showmatch
+set smartcase
+
+" Enable vim: ... directives
+set modeline
+
+" Tab stuff
+set tabstop=8
+set softtabstop=4
+set shiftwidth=4
+
+" Use system clipboard
+set clipboard=unnamedplus
+
+" Make no noise
+set visualbell t_vb=
+set noerrorbells
+
+" Vertical diff
+set diffopt=filler,vertical
+
+" Use hidden (allow buffer switch when modified)
+au BufNewFile,BufRead * set hidden
+
+comm! Gr ! go run %
+
+" Go
+au BufNewFile,BufRead *.go setl noet
+au BufNewFile,BufRead *.go setl ts=4
+au BufNewFile,BufRead *.go setl tw=0
+au FileType go nmap <leader>gt :GoDeclsDir<cr>
+" let g:go_auto_sameids = 1
+let g:go_auto_type_info = 1
+let g:go_list_height = 0
+let g:go_metalinter_command = "golangci-lint"
+let g:go_decls_mode = 'fzf'
+let g:go_highlight_diagnostic_errors = 1
+let g:go_highlight_diagnostic_warnings = 1
+"let g:go_fmt_experimental = 1
+set completeopt-=preview
+
+augroup go
+  autocmd!
+  autocmd Filetype go
+    \  command! -bang A call go#alternate#Switch(<bang>0, 'edit')
+    \| command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
+    \| command! -bang AS call go#alternate#Switch(<bang>0, 'split')
+augroup END
+
+" Space for page up/down
+noremap <SPACE> <C-F>
+
+" Explorer to show full info
+let g:explDetailedList=1
+
+" CTRL-P
+noremap <C-P> :FZF<CR>
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\.venv$\|\.vendor$',
+  \ }
+
+" Python
+" NERDTree
+let NERDTreeIgnore = ['\.py[co]$', '__pycache__']
+comm! NT NERDTreeToggle
+let g:NERDTreeWinSize = 18 
+
+" ultisnips
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" netrw settings
+let g:netrw_banner=0
+let g:netrw_altv=1
