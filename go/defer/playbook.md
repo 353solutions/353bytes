@@ -9,10 +9,17 @@ answer is that there is a limit on the number of open files a process can hold.
 
     $ ulimit -a
 
-You can see that I can have only 1024 file descriptors. These bugs of
-forgetting to close a file are hard. Your server will work fine for a couple of
-day and then start failing with the cryptic message of "too many open files".
-Good luck finding the error.
+You can see that I can have about a million file descriptors. This might seem
+like a lot, but let's do a small calculation. Say you have a server that get a
+moderate 100RPS
+
+    $ cat '100*60*60*24' | bc
+
+And you're already out of file descriptors.
+
+These bugs of forgetting to close a file are hard. Your server will work fine
+for a couple of day and then start failing with the cryptic message of "too
+many open files".  Good luck finding the error.
 
 Once you acquire a resource, you want to make sure it's released - even if
 there was an error (panic) in your code. The `defer` statement does just that.
