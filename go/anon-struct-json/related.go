@@ -11,7 +11,7 @@ const (
 	urlTemplate = "https://api.stocktwits.com/api/2/streams/symbol/%s.json"
 )
 
-// RelatedSymbols returns list of related symbols in order
+// RelatedSymbols returns list of related symbols and their counts
 func RelatedSymbols(symbol string) (map[string]int, error) {
 	url := fmt.Sprintf(urlTemplate, symbol)
 	resp, err := http.Get(url)
